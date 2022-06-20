@@ -10,10 +10,10 @@ export default class PortfolioContainer extends Component {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
             data: [
-                {title: "Despose Inc", category: "Destroy", url: "destroy.com"}, 
-                {title: "Travice County PD", category: "Police", url: "travice-county-police-department.com"}, 
-                {title: "Woody Construction Inc", category: "Build", url: "woody-construction-incorporated.com"}, 
-                {title: "Fungicides Inc", category: "Destroy", url: "woody-burrette-removal.com"}
+                {title: "Despose Inc", category: "Destroy", custom: "despose-inc"}, 
+                {title: "Travice County PD", category: "Police", custom: "police"}, 
+                {title: "Woody Construction Inc", category: "Build", custom: "construction"}, 
+                {title: "Fungicides Inc", category: "Destroy", custom: "anti-burrette"}
             ]
         }
 
@@ -35,7 +35,7 @@ export default class PortfolioContainer extends Component {
 
     getPortfolioItems() {
         return this.state.data.map( // Map returns an array
-            item => <PortfolioItem title={item.title} url={item.url}/> // Instead of passing in a string, you can use the bracket syntax as an alternative and allow variables as the value
+            item => <PortfolioItem title={item.title} url="google.com" custom={item.custom}/> // Instead of passing in a string, you can use the bracket syntax as an alternative and allow variables as the value
             ); // The title value is not a reserved keyword, it could be anything. Title is just descriptive
     } // However, if you want to access it with the setState function, it must be this.state
 
@@ -61,7 +61,7 @@ export default class PortfolioContainer extends Component {
                 <button onClick={() => this.handleFilter('Police')}>Police</button>
                 <button onClick={() => this.handleFilter('Build')}>Build</button> {/* The function because without it, the program will try to run this function immediately because of the way JavaScript deals with arguments of functions */}
 
-                <PortfolioItem />
+                {/* <PortfolioItem /> */} {/* This is for the homepage */}
                 {this.getPortfolioItems()}
                 
                 {/* <hr/>

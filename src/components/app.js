@@ -9,8 +9,9 @@ import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
 import Blog from './pages/blog';
+import PortfolioDetail from './portfolio/portfolio-detail';
+import NoMatch from './pages/no-match';
 
-import PortfolioContainer from './portfolio/portfolio-container';
 import NavigationContainer from './navigation/navigation-container';
 
 export default class App extends Component {
@@ -19,6 +20,9 @@ export default class App extends Component {
       <div className='app'>
         <Router>
           <div>
+
+            <h1>Woody's React Portfolio</h1>
+            <div>{moment().format('MMMM Do YYYY, h:mm:ss a')}</div>
             <NavigationContainer />
 
             <Switch> {/* The switch is basically an if statement. If the page matches, it will load that code */}
@@ -26,13 +30,11 @@ export default class App extends Component {
               <Route path="/about-us" component={About} />
               <Route path="/contact-us" component={Contact} />
               <Route path="/blog" component={Blog} />
+              <Route extact path="/portfolio/:custom" component={PortfolioDetail} />
+              <Route component={NoMatch} /> {/* This route is the last one picked, therefore the catch if nothing else is found */}
             </Switch>
           </div>
         </Router>
-
-        <h1>Woody's React Portfolio</h1>
-        <div>{moment().format('MMMM Do YYYY, h:mm:ss a')}</div>
-        <PortfolioContainer/>
       </div>
     );
   }
