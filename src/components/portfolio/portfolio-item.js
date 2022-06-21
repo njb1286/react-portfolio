@@ -7,7 +7,7 @@ export default function(props) {
             <h2>{props.title}</h2>
             <h3>{props.url}</h3>
 
-            <Link to={`/portfolio/${props.custom}`}>Link</Link>
+            <Link to={`/portfolio/${props.url}`}>Link</Link>
         </div>
     )
 }

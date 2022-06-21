@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 import PortfolioItem from './portfolio-item';
 
 export default class PortfolioContainer extends Component {
@@ -10,10 +12,7 @@ export default class PortfolioContainer extends Component {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
             data: [
-                {title: "Despose Inc", category: "Destroy", custom: "despose-inc"}, 
-                {title: "Travice County PD", category: "Police", custom: "police"}, 
-                {title: "Woody Construction Inc", category: "Build", custom: "construction"}, 
-                {title: "Fungicides Inc", category: "Destroy", custom: "anti-burrette"}
+                
             ]
         }
 
@@ -23,6 +22,20 @@ export default class PortfolioContainer extends Component {
         // Also is done in the constructor
 
         this.handleFilter = this.handleFilter.bind(this);
+}
+
+    importPortfolioItems() {
+            axios.get('https://daboss.devcamp.space/portfolio/portfolio_items')
+        .then(response => {
+            // handle success
+            this.setState({
+                data: response.data.portfolio_items
+            })
+        })
+        .catch(error => { // The reason for the arrow function is because the this keyword is different for arrow functions.
+            // handle error
+            throw new Error(error);
+        })
     }
 
     handleFilter(filter) {
@@ -35,7 +48,10 @@ export default class PortfolioContainer extends Component {
 
     getPortfolioItems() {
         return this.state.data.map( // Map returns an array
-            item => <PortfolioItem title={item.title} url="google.com" custom={item.custom}/> // Instead of passing in a string, you can use the bracket syntax as an alternative and allow variables as the value
+            item => {
+                console.log("Item data", item);
+                return <PortfolioItem title={item.name} url={item.url} id={item.id} />;
+            } // Instead of passing in a string, you can use the bracket syntax as an alternative and allow variables as the value
             ); // The title value is not a reserved keyword, it could be anything. Title is just descriptive
     } // However, if you want to access it with the setState function, it must be this.state
 
@@ -47,11 +63,14 @@ export default class PortfolioContainer extends Component {
     //     )
     // }
 
+    componentDidMount() {
+        this.importPortfolioItems();
+    }
+
     render() {
         if (this.state.isLoading) {
             return <div>Loading...</div>;
         }
-
         
         return ( // This function accepts this class's state property
             <div>
