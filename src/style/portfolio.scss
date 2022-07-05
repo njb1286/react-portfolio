@@ -1,0 +1,63 @@
+.filter-buttons-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.portfolio-items-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(auto-fill, 1fr);
+
+    .portfolio-item-wrapper {
+        position: relative; // The parent of a position absolute element must be relative
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        
+        .portfolio-background {
+            transition: $base-transition;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 500px;
+            width: 100%;
+        }
+        
+        &:hover .portfolio-background {
+            filter: brightness(30%);
+        }
+
+        .img-text-wrapper {
+            position: absolute;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            padding-left: 100px;
+            padding-right: 100px;
+
+            .subtitle {
+                transition: $base-transition;
+                color: $teal;
+                opacity: 0;
+                font-weight: 400;
+                filter: brightness(100%);
+        }
+        }
+
+        .img-text-wrapper:hover {
+            .subtitle {
+                opacity: 100%;
+            }
+        }
+
+        .logo-wrapper img {
+            width: 50%;
+            margin-bottom: 20px;
+        }
+    }
+}

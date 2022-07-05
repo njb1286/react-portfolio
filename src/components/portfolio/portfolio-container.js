@@ -13,6 +13,10 @@ export default class PortfolioContainer extends Component {
             isLoading: false,
             data: [
                 
+            ],
+
+            temp_data: [
+
             ]
         }
 
@@ -30,6 +34,10 @@ export default class PortfolioContainer extends Component {
             // handle success
             this.setState({
                 data: response.data.portfolio_items
+            });
+
+            this.setState({
+                temp_data: response.data.portfolio_items
             })
         })
         .catch(error => { // The reason for the arrow function is because the this keyword is different for arrow functions.
@@ -39,18 +47,26 @@ export default class PortfolioContainer extends Component {
     }
 
     handleFilter(filter) {
+        this.setState({
+            temp_data: this.state.data
+        })
+
         this.setState(
             {
-                data: this.state.data.filter(item => item.category === filter)
+                temp_data: this.state.data.filter(item => item.category === filter)
             }
         )
     }
 
     getPortfolioItems() {
-        return this.state.data.map( // Map returns an array
+        return this.state.temp_data.map( // Map returns an array
             item => {
-                console.log("Item data", item);
-                return <PortfolioItem title={item.name} url={item.url} id={item.id} />;
+                return (
+                    <PortfolioItem 
+                    key={item.id} 
+                    item={item}
+                    />
+                );
             } // Instead of passing in a string, you can use the bracket syntax as an alternative and allow variables as the value
             ); // The title value is not a reserved keyword, it could be anything. Title is just descriptive
     } // However, if you want to access it with the setState function, it must be this.state
@@ -74,14 +90,18 @@ export default class PortfolioContainer extends Component {
         
         return ( // This function accepts this class's state property
             <div>
-                <h2>{this.state.pageTitle}</h2>
-
-                <button onClick={() => this.handleFilter('Destroy')}>Destroy</button>
-                <button onClick={() => this.handleFilter('Police')}>Police</button>
-                <button onClick={() => this.handleFilter('Build')}>Build</button> {/* The function because without it, the program will try to run this function immediately because of the way JavaScript deals with arguments of functions */}
+                {/* <h2>{this.state.pageTitle}</h2> */}
 
                 {/* <PortfolioItem /> */} {/* This is for the homepage */}
-                {this.getPortfolioItems()}
+                <div className="filter-buttons-wrapper">
+                    <button className='btn' onClick={() => this.handleFilter('Technology')}>Tech</button>
+                    <button className='btn' onClick={() => this.handleFilter('IDK')}>IDK</button>
+                    <button className='btn' onClick={() => this.handleFilter('Code')}>Code</button> {/* The function because without it, the program will try to run this function immediately because of the way JavaScript deals with arguments of functions */}
+                </div>
+
+                <div className="portfolio-items-wrapper">
+                    {this.getPortfolioItems()}
+                </div>
                 
                 {/* <hr/>
                 
