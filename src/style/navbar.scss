@@ -2,8 +2,22 @@
     display: flex;
     justify-content: space-between;
     padding: 30px;
+
     .left-side {
         display: flex;
+    }
+
+    .right-side {
+        a {
+            margin-left: 15px;
+            cursor: pointer;
+            color: $teal;
+            transition: .1s ease-in-out;
+
+            &:hover {
+                color: $dark-teal;
+            }
+        }
     }
 
     .nav-link-wrapper {

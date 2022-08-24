@@ -9,14 +9,45 @@ export default class PortfolioManager extends Component {
         super();
 
         this.state = {
-            portfolioItems: [
-
-            ]
+            portfolioItems: [],
+            portfolioToEdit: {}
         }
 
         this.getPortfolioItems = this.getPortfolioItems.bind(this);
         this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(this);
         this.handleFormSubmissionError = this.handleFormSubmissionError.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleEditClick = this.handleEditClick.bind(this);
+        this.clearPortfolioToEdit = this.clearPortfolioToEdit.bind(this);
+    }
+
+    clearPortfolioToEdit() {
+        this.setState({
+            portfolioToEdit: {}
+        });
+    }
+
+    handleEditClick(portfolioItem) {
+        this.setState({
+            portfolioToEdit: portfolioItem
+        })
+    }
+
+    handleDelete(item) {
+        axios.delete(
+            `https://api.devcamp.space/portfolio/portfolio_items/${item.id}`, 
+            { withCredentials: true } // withCredentials makes sure that you are logged in and have access to these items
+        ).then(response => {
+            this.setState({
+                portfolioItems: this.state.portfolioItems.filter(itm => {
+                    return itm.id !== item.id;
+                })
+            });
+
+            return response.data;
+        }).catch(e => {
+            console.log("handleDelete error", e);
+        })
     }
 
     handleSuccessfulFormSubmission(portfolioItem) {
@@ -52,11 +83,17 @@ export default class PortfolioManager extends Component {
                     <PortfolioForm 
                         formSubmission={this.handleSuccessfulFormSubmission}
                         formSubmissionError={this.handleFormSubmissionError}
+                        clearPortfolioToEdit={this.clearPortfolioToEdit}
+                        portfolioToEdit={this.state.portfolioToEdit}
                     />
                 </div>
 
                 <div className="right-column">
-                    <PortfolioSidebarList data={this.state.portfolioItems}/>
+                    <PortfolioSidebarList 
+                        data={this.state.portfolioItems} 
+                        handleDelete={this.handleDelete}
+                        handleEditClick={this.handleEditClick}
+                    />
                 </div>
             </div>
         )
