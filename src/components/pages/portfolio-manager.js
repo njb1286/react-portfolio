@@ -14,7 +14,8 @@ export default class PortfolioManager extends Component {
         }
 
         this.getPortfolioItems = this.getPortfolioItems.bind(this);
-        this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(this);
+        this.handleNewFormSubmission = this.handleNewFormSubmission.bind(this);
+        this.handleEditFormSubmission = this.handleEditFormSubmission.bind(this);
         this.handleFormSubmissionError = this.handleFormSubmissionError.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleEditClick = this.handleEditClick.bind(this);
@@ -31,6 +32,7 @@ export default class PortfolioManager extends Component {
         this.setState({
             portfolioToEdit: portfolioItem
         })
+        console.log("portfolioItem", portfolioItem);
     }
 
     handleDelete(item) {
@@ -50,7 +52,11 @@ export default class PortfolioManager extends Component {
         })
     }
 
-    handleSuccessfulFormSubmission(portfolioItem) {
+    handleEditFormSubmission() {
+        this.getPortfolioItems();
+    }
+
+    handleNewFormSubmission(portfolioItem) {
         this.setState({
             portfolioItems: [portfolioItem].concat(this.state.portfolioItems) // Creating an array, then merging it with the main array
         })
@@ -81,7 +87,8 @@ export default class PortfolioManager extends Component {
             <div className='portfolio-manager-wrapper'>
                 <div className="left-column">
                     <PortfolioForm 
-                        formSubmission={this.handleSuccessfulFormSubmission}
+                        formSubmission={this.handleNewFormSubmission}
+                        handleEditFormSubmission={this.handleEditFormSubmission}
                         formSubmissionError={this.handleFormSubmissionError}
                         clearPortfolioToEdit={this.clearPortfolioToEdit}
                         portfolioToEdit={this.state.portfolioToEdit}

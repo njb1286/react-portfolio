@@ -1,0 +1,28 @@
+.contact-page-content {
+    display: flex;
+    flex-direction: column;
+
+    .items-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 21px;
+
+        .item {
+            display: flex;
+            font-size: 1.4em;
+    
+            .icon-wrapper {
+                margin-right: 15px;
+    
+                svg {
+                    font-size: 30px;
+                    color: $teal;
+                }
+            }
+
+            .text {
+                font-weight: 900;
+            }
+        }
+    }
+}

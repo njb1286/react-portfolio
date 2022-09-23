@@ -1,18 +1,19 @@
-.filter-buttons-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
 .portfolio-items-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(auto-fill, 1fr);
 
     .portfolio-item-wrapper {
         position: relative; // The parent of a position absolute element must be relative
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 23.5vw;
+        cursor: pointer;
+
+
+        &:hover .img-text-wrapper .subtitle {
+            opacity: 100%;
+        }
         
         
         .portfolio-background {
@@ -20,7 +21,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            height: 500px;
+            height: 100%;
             width: 100%;
         }
         
@@ -46,12 +47,6 @@
                 opacity: 0;
                 font-weight: 400;
                 filter: brightness(100%);
-        }
-        }
-
-        .img-text-wrapper:hover {
-            .subtitle {
-                opacity: 100%;
             }
         }
 

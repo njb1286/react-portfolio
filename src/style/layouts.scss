@@ -1,0 +1,14 @@
+.content-page-wrapper {
+    width: 100vw;
+    height: calc(100vh - 123px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+
+    .right-column {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 100px;
+    }
+}

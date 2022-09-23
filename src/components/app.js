@@ -5,26 +5,27 @@ import {
   Route
 } from 'react-router-dom';
 import axios from 'axios';
-import { library, Library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faSignOutAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
+import Icons from '../helpers/icons';
+
 
 import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
 import Blog from './pages/blog';
+import BlogDetail from './pages/blog-detail';
 import PortfolioDetail from './portfolio/portfolio-detail';
 import PortfolioManager from './pages/portfolio-manager';
 import NoMatch from './pages/no-match';
 import NavigationContainer from './navigation/navigation-container';
-import Auth from './pages/auth';
-
-library.add(faTrash, faSignOutAlt, faEdit); 
+import Auth from './pages/auth'; 
 
 
 export default class App extends Component {
   constructor(props) {
     super(props);
+
+    Icons();
 
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN"
@@ -104,9 +105,21 @@ export default class App extends Component {
                 />
 
               <Route path="/contact-us" component={Contact} />
-              <Route path="/blog" component={Blog} />
+
+              <Route path="/blog" render={props => (
+                <Blog {...props} loggedInStatus={this.state.loggedInStatus} /> // The {...props} gives the function all the other props inside of the props variable
+              )} />
+
+              <Route 
+                path="/b/:slug" 
+                render={props => (
+                  <BlogDetail {...props} loggedInStatus={this.state.loggedInStatus} />
+                )} 
+              />
+
+
               {this.state.loggedInStatus === "LOGGED_IN" ? this.authorizedPages() : null}
-              <Route extact path="/portfolio/:custom" component={PortfolioDetail} />
+              <Route extact path="/portfolio/:slug" component={PortfolioDetail} />
               <Route component={NoMatch} /> {/* This route is the last one picked, therefore the catch if nothing else is found */}
             </Switch>
           </div>

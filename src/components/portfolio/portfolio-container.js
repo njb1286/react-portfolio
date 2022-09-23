@@ -13,10 +13,6 @@ export default class PortfolioContainer extends Component {
             isLoading: false,
             data: [
                 
-            ],
-
-            temp_data: [
-
             ]
         }
 
@@ -28,17 +24,20 @@ export default class PortfolioContainer extends Component {
         this.handleFilter = this.handleFilter.bind(this);
 }
 
-    importPortfolioItems() {
+    importPortfolioItems(filter = null) {
             axios.get('https://daboss.devcamp.space/portfolio/portfolio_items')
         .then(response => {
             // handle success
-            this.setState({
-                data: response.data.portfolio_items
-            });
-
-            this.setState({
-                temp_data: response.data.portfolio_items
-            })
+            if (filter) {
+                this.setState({
+                    data: response.data.portfolio_items.filter(item => item.category === filter)
+                });
+            
+            } else {
+                this.setState({
+                    data: response.data.portfolio_items
+                });
+            }
         })
         .catch(error => { // The reason for the arrow function is because the this keyword is different for arrow functions.
             // handle error
@@ -47,19 +46,16 @@ export default class PortfolioContainer extends Component {
     }
 
     handleFilter(filter) {
-        this.setState({
-            temp_data: this.state.data
-        })
-
-        this.setState(
-            {
-                temp_data: this.state.data.filter(item => item.category === filter)
-            }
-        )
+        if (filter === "CLEAR_FILTERS") {
+            this.importPortfolioItems();
+        } else {
+            this.importPortfolioItems(filter);
+        }
+        
     }
 
     getPortfolioItems() {
-        return this.state.temp_data.map( // Map returns an array
+        return this.state.data.map( // Map returns an array
             item => {
                 return (
                     <PortfolioItem 
@@ -89,7 +85,7 @@ export default class PortfolioContainer extends Component {
         }
         
         return ( // This function accepts this class's state property
-            <div>
+            <div className='homepage-wrapper'>
                 {/* <h2>{this.state.pageTitle}</h2> */}
 
                 {/* <PortfolioItem /> */} {/* This is for the homepage */}
@@ -97,6 +93,7 @@ export default class PortfolioContainer extends Component {
                     <button className='btn' onClick={() => this.handleFilter('Technology')}>Tech</button>
                     <button className='btn' onClick={() => this.handleFilter('IDK')}>IDK</button>
                     <button className='btn' onClick={() => this.handleFilter('Code')}>Code</button> {/* The function because without it, the program will try to run this function immediately because of the way JavaScript deals with arguments of functions */}
+                    <button className='btn' onClick={() => this.handleFilter('CLEAR_FILTERS')}>All</button> {/* The function because without it, the program will try to run this function immediately because of the way JavaScript deals with arguments of functions */}
                 </div>
 
                 <div className="portfolio-items-wrapper">
